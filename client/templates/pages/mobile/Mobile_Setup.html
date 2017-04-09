@@ -1,0 +1,50 @@
+<template name="Mobile_Setup">
+  <div class="all_page_teal" style="height: 180%">
+    <br>
+    <div class="row_title">
+      <div class="row">
+
+        <div class="col-md-4" style="text-align: center">
+          <h4 class="white">Invite your Team</h4>
+          <input type="text" name="name" style="margin: 15px auto" placeholder="Name" class="input_material auth">
+          <input type="email" name="email" style="margin: 15px auto" placeholder="Email" class="input_material auth">
+          <button class="btn btn-white signup large" style="margin: 15px auto; width: 47%; font-size: 13px" name="add"><i class="fa fa-plus" aria-hidden="true"></i> Add Member</button>
+        </div>
+
+        <br><br>
+        <div class="row">
+          <div class="col-md-4" style="text-align: center">
+            <h4 class="white" style="margin: 5px auto; text-align: center">Conflicts Check</h4>
+            <input type="email" name="conflict_email_alias" style="margin: 15px auto" placeholder="Conflict Email Alias" class="input_material auth">
+            <button class="btn btn-white signup large" style="width: 70%; font-size: 13px; margin: 10px auto;" name="add_conflict_email"><i class="fa fa-plus" aria-hidden="true"></i> Add Alias</button>
+          </div>
+        </div>
+        <br><br>
+        <div class="col-md-4">
+          <h4 class="white" style="margin: 5px auto; text-align: center">Add your Signature</h4>
+
+          <label class="btn btn-white signup large  btn-file" style="margin: 30px auto; width: 60%; padding-top: 14px; font-size: 13px">
+            Upload Signature <input type="file" style="display: none;">
+          </label>
+
+          <h4 class="white" style="margin: 5px auto; text-align: center">- or -</h4>
+
+          <button class="btn btn-white signup large" style="font-size: 13px; width: 60%; margin: 30px auto;" name="draw">Draw Signature</button>
+
+        </div>
+        <br><br>
+        <div class="col-md-4">
+          <h4 class="white" style="text-align: center">Upload your Photo</h4>
+          <img src="/images/photo.png" alt="photo" class="photo" style="margin-top: 30px">
+          <label class="btn btn-white signup large  btn-file" style="width: 60%; margin: 0 auto; padding-top: 14px; font-size: 13px">
+            Upload <input type="file" style="display: none;">
+          </label>
+          <button class="btn btn-white signup large" style="font-size: 13px; width: 60%; margin: 20px auto;" name="draw">Save</button>
+        </div>
+      </div>
+      <br><br>
+
+      <br>
+    </div>
+  </div>
+</template>

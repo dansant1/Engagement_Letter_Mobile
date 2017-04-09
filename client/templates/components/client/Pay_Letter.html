@@ -1,0 +1,103 @@
+<template name="Pay_Letter">
+  <div class="jumbotron">
+    <div class="container-fluid">
+      <div class="box__teal" style="min-height: 50px; padding: 30px">
+
+          <p class="white" style="margin-bottom: 0">Payment</p>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <br>
+        <h4 class="teal">Payment Process</h4>
+        <p class="teal">Total: <strong>USD$ 4 900.00</strong></p>
+        <input oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" type = "number" maxlength = "15" style="margin-left: 5px;" name="credit_card_number" placeholder="Credit Card Number" class="input_material auth">
+
+        <div class="col1">
+          <select style="width: 100%" name="phone" placeholder="Due Year" class="input_material auth">
+            <option value="1">January</option>
+            <option value="2">February</option>
+            <option value="3">March</option>
+            <option value="4">April</option>
+            <option value="5">May</option>
+            <option value="6">June</option>
+            <option value="7">July</option>
+            <option value="8">August</option>
+            <option value="9">September</option>
+            <option value="10">October</option>
+            <option value="11">November</option>
+            <option value="12">December</option>
+          </select>
+        </div>
+        <div class="col1">
+            <select style="width: 100%" name="phone" placeholder="Due Year" class="input_material auth">
+              <option value="2017">2017</option>
+              <option value="2017">2018</option>
+              <option value="2017">2019</option>
+              <option value="2017">2020</option>
+              <option value="2017">2021</option>
+              <option value="2017">2022</option>
+            </select>
+        </div>
+
+        <div class="col1">
+          <input oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" type = "number" maxlength = "4" name="vcc" placeholder="CV" class="input_material auth">
+        </div>
+        <div class="col1">
+          <p class="steel" style="padding-top: 15px; position: relative; top: 10px">3 digits usually found on the signature strip</p>
+        </div>
+        <br>
+        <a href="/client/sign_letter" class="btn btn-white signup" style="width: 70%; margin-left: 5px auto" name="next">Next</a>
+
+        </div>
+      <div class="col-md-6">
+        <br>
+        <div class="box__steel">
+          <h4>Payment Information</h4>
+          <br>
+          <ul class="list-group">
+
+            <li class="list-group-item clearfix">
+              <span class="pull-left">Lawyer 1</span>
+              <span class="pull-right">$ 1,200.00</span>
+            </li>
+
+
+            <li class="list-group-item clearfix">
+              <span class="pull-left">Lawyer 2</span>
+              <span class="pull-right">$ 1,700.00</span>
+            </li>
+
+            <li class="list-group-item clearfix">
+              <span class="pull-left">Lawyer 3</span>
+              <span class="pull-right">$ 2,200.00</span>
+            </li>
+
+          </ul>
+
+          <ul class="list-group">
+
+            <li class="list-group-item clearfix">
+              <span class="pull-left">Discount - Lawyer 1</span>
+              <span class="pull-right">$ 200.00</span>
+            </li>
+
+          </ul>
+
+          <ul class="list-group">
+
+            <li class="list-group-item clearfix">
+              <span class="pull-left">Total: </span>
+              <span class="pull-right">$ 4,900.00</span>
+            </li>
+
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>

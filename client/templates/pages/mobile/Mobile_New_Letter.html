@@ -1,0 +1,218 @@
+<template name="Mobile_New_Letter">
+  <div class="all_page_teal">
+    <div class="profile_line" style="width: 90%">
+
+      <span style="margin-left: 0px"> <a class="white" href="/mobile"><i class="fa fa-arrow-left"></i></a> Step 1 - Client Information</span>
+      <span style="display: inline-block; float: right; width: 0px;" class="white"><a href="/mobile" class="white"><i class="fa fa-home" aria-hidden="true"></i></a></span>
+    </div>
+
+    <div class="content">
+
+      <select class="input_material auth" name="engagement_type">
+        <option value="0">-- Choose a Client --</option>
+        <option value="1">Client 1</option>
+        <option value="0">Client 2</option>
+        <option value="0">Client 3</option>
+      </select>
+      <br>
+      <h4 class="white">- or Add a New Client-</h4>
+      <br>
+      <input type="text" name="name" placeholder="Company Name" class="input_material auth">
+      <input type="text" name="address" placeholder="Company Address" class="input_material auth">
+      <input type="number" name="phone" placeholder="Company Phone" class="input_material auth">
+      <input type="text" name="client_name" placeholder="Client Name" class="input_material auth">
+      <input type="email" name="client_email" placeholder="Client Email" class="input_material auth">
+      <a href="/mobile/new_letter/write_letter" class="btn btn-white signup large new" style="font-size: 13px; width: 90%; margin: 30px auto; padding-top: 15px;" name="draw"><i class="fa fa-plus" aria-hidden="true"></i> Next</a>
+
+    </div>
+  </div>
+</template>
+
+<template name="Mobile_New_Letter_2">
+<div class="all_page_teal">
+  <div class="profile_line" style="width: 90%">
+
+    <span style="margin-left: 0px"> <a class="white" href="/mobile/new_letter"><i class="fa fa-arrow-left"></i></a> Step 2 - Write Letter</span>
+    <span style="display: inline-block; float: right; width: 0px;" class="white"><a href="/mobile" class="white"><i class="fa fa-home" aria-hidden="true"></i></a></span>
+
+  </div>
+  <div class="content">
+
+    <textarea name="engagement" class="input_material area" rows="8" cols="80" style="width: 90%; margin: 0 auto;" placeholder="Describe the Engagement Scope"></textarea>
+    <label for="engagement_template" class="teal">Template Text</label>
+    <br>
+    <select class="input_material auth" id="engagement_template" name="engagement_template" style="width: 90%;
+  margin: 20px auto;">
+      <option value="0">Template 1</option>
+      <option value="1">Template 2</option>
+      <option value="0">Template 3</option>
+    </select>
+    
+    <a href="/mobile/new_letter/write_exclusion"  style="font-size: 13px; width: 90%; margin: 0px auto; padding-top: 15px;" class="btn btn-white signup" name="next">Next</a>
+  </div>
+
+</div>
+</template>
+
+<template name="Mobile_New_Letter_3">
+<div class="all_page_teal">
+  <div class="profile_line" style="width: 90%">
+
+    <span style="margin-left: 0px"> <a class="white" href="/mobile/new_letter/write_letter"><i class="fa fa-arrow-left"></i></a> Step 3 - Write Exclusion</span>
+    <span style="display: inline-block; float: right; width: 0px;" class="white"><a href="/mobile" class="white"><i class="fa fa-home" aria-hidden="true"></i></a></span>
+
+  </div>
+  <div class="content">
+
+    <textarea name="engagement" class="input_material area" rows="8" cols="80" style="width: 90%; margin: 0 auto;" placeholder="Describe work outside of scope"></textarea>
+
+    <label for="engagement_template" class="teal">Template Text</label>
+    <br>
+    <select class="input_material auth" id="engagement_template" name="engagement_template" style="width: 90%;
+  margin: 20px auto;">
+      <option value="0">Template 1</option>
+      <option value="1">Template 2</option>
+      <option value="0">Template 3</option>
+    </select>
+
+    <a href="/mobile/new_letter/conflicts"  style="font-size: 13px; width: 90%; margin: 10px auto; padding-top: 15px;" class="btn btn-white signup" name="next">Next</a>
+  </div>
+
+</div>
+</template>
+
+<template name="Mobile_New_Letter_4">
+<div class="all_page_teal" style="height: 100%">
+  <div class="profile_line" style="width: 90%">
+
+    <span style="margin-left: 0px"> <a class="white" href="/mobile/new_letter/write_exclusion"><i class="fa fa-arrow-left"></i></a> Step 3 - Conflicts</span>
+    <span style="display: inline-block; float: right; width: 0px;" class="white"><a href="/mobile" class="white"><i class="fa fa-home" aria-hidden="true"></i></a></span>
+
+  </div>
+  <div class="content">
+
+    <h3 class="white" style="margin-top: 5px; font-size: 21px">Parties </h3>
+    <input type="text" name="partyname" placeholder="Name"  style="width: 100%" class="input_material auth">
+    <button class="btn btn-white signup large" type="button" name="button">Add</button>
+    <br>
+
+      <ul class="list-group">
+
+        <li class="list-group-item clearfix">
+          <span class="pull-left">Client 1</span>
+
+        </li>
+
+
+        <li class="list-group-item clearfix">
+          <span class="pull-left">Client 2</span>
+
+        </li>
+
+        <li class="list-group-item clearfix">
+          <span class="pull-left">Client 3</span>
+
+        </li>
+
+      </ul>
+
+      <h3 class="white" style=" font-size: 21px">Opposing Parties </h3>
+      <input type="text" name="partyname" placeholder="Name"  style="width: 100%" class="input_material auth">
+      <button class="btn btn-white signup large" type="button" name="button">Add</button>
+      <br>
+
+        <ul class="list-group">
+
+          <li class="list-group-item clearfix">
+            <span class="pull-left">Client 1</span>
+
+          </li>
+
+
+          <li class="list-group-item clearfix">
+            <span class="pull-left">Client 2</span>
+
+          </li>
+
+          <li class="list-group-item clearfix">
+            <span class="pull-left">Client 3</span>
+
+          </li>
+
+        </ul>
+
+
+    <a href="/mobile/new_letter/payments"  style="font-size: 13px; width: 100%; margin: 30px auto; padding-top: 15px;" class="btn btn-white signup" name="next">Next</a>
+  </div>
+
+</div>
+</template>
+
+<template name="Mobile_New_Letter_5">
+<div class="all_page_teal" style="height: 100%">
+  <div class="profile_line" style="width: 90%">
+
+    <span style="margin-left: 0px"> <a class="white" href="/mobile/new_letter/payments"><i class="fa fa-arrow-left"></i></a> Step 4 - Payment</span>
+    <span style="display: inline-block; float: right; width: 0px;" class="white"><a href="/mobile" class="white"><i class="fa fa-home" aria-hidden="true"></i></a></span>
+
+  </div>
+  <div class="content">
+
+    <select style="border-radius: 0px" class="input_material auth" name="engagement_charge">
+
+      <option value="1">Hourly</option>
+      <option value="2">Retainer</option>
+      <option value="3">Project</option>
+    </select>
+
+    <select style="border-radius: 0px" class="input_material auth" name="engagement_type">
+      <option value="0">Lawyer 1</option>
+      <option value="1">Lawyer 2</option>
+      <option value="0">Lawyer 3</option>
+    </select>
+    <input type="number" name="amount" placeholder="{{text}}" class="input_material auth">
+    <input type="number" name="discount" placeholder="Discount %" class="input_material auth">
+    <hr>
+    <input type="number" name="peoject_estimate" disabled placeholder="Project Estimate" class="input_material auth">
+    <input type="number" name="deposit_amount" placeholder="Deposit Amount" class="input_material auth">
+    <br>
+    <label for="checkbox1">Recurring Payment</label>
+    <br><br>
+    <div id="toggles">
+      <input type="checkbox" name="checkbox1" id="checkbox1" class="ios-toggle" />
+      <label for="checkbox1" class="checkbox-label white" data-off="Recurring off" data-on="Recurring on"></label>
+    </div>
+
+    <hr>
+    <button class="btn btn-white signup large" style="font-size: 13px; height: 45px; width: 100%" name="add"><i class="fa fa-plus" aria-hidden="true"></i> Add Associate</button>
+
+
+
+
+    <a href="/mobile/new_letter/signature"  style="font-size: 13px; width: 100%; margin: 30px auto; padding-top: 15px;" class="btn btn-white signup" name="next">Next</a>
+  </div>
+
+</div>
+</template>
+
+<template name="Mobile_New_Letter_6">
+<div class="all_page_teal">
+  <div class="profile_line" style="width: 90%">
+
+    <span style="margin-left: 0px"> <a class="white" href="/mobile/new_letter/payments"><i class="fa fa-arrow-left"></i></a> Step 5 - Signature</span>
+    <span style="display: inline-block; float: right; width: 0px;" class="white"><a href="/mobile" class="white"><i class="fa fa-home" aria-hidden="true"></i></a></span>
+
+  </div>
+  <br><br><br><br>
+  <div class="content">
+    <a href="#" class="btn btn-white" style="width: 80%">Upload</a>
+
+    <h3>- Or -</h3>
+
+    <a href="/mobile/draw_signature" class="btn btn-white" style="width: 80%">Draw Signature</a>
+    <br><br>  <br>
+    <a href="/mobile/"  style="font-size: 13px; width: 80%; margin: 30px auto; padding-top: 15px;" class="btn btn-white signup" name="next">Next</a>
+  </div>
+
+</div>
+</template>

@@ -1,0 +1,29 @@
+<template name="Write_Exclusion">
+  <br>
+  <div class="row">
+    <div class="col-md-9">
+      <h4 class="teal"><a href="/new_letter/" class="teal"><i class="fa fa-arrow-left" aria-hidden="true"></i></a> Step 3 - Write Exclusion</h4>
+      <br>
+      <div class="col-md-6" style="padding: 0">
+
+      </div>
+      <br>
+      <textarea name="engagement" class="input_material area" rows="8" cols="80" placeholder="Describe work outside of scope"></textarea>
+      <br><br>
+      <label for="engagement_template" class="teal">Template Text</label>
+      <br>
+      <select class="input_material auth" id="engagement_template" name="engagement_template" style="width: 40%;
+    margin: 20px auto;">
+        <option value="0">--Choose Template--</option>
+        {{#each templates}}
+        <option value="{{this.content}}">{{this.name}}</option>
+        {{/each}}
+        <option value="n">--Add Template--</option>
+      </select>
+      <button class="btn btn-white signup" name="next">Next</button>
+    </div>
+
+
+  </div>
+  <br>
+</template>

@@ -1,0 +1,70 @@
+<template name="Dashboard">
+  <br>
+  <div class="container">
+    <div class="row">
+      <a href="/new_letter" class="btn btn-white signup large" style="font-size: 13px; width: 40%; margin: 30px auto; padding-top: 15px;" name="draw"><i class="fa fa-plus" aria-hidden="true"></i> New Letter</a>
+    </div>
+    <div class="row">
+
+
+        <div class="col-md-4">
+          <ul class="nav nav-tabs" role="tablist">
+              <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Notifications</a></li>
+          </ul>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="home" style="text-align: center">
+              <ul class="list-group">
+                {{#each feed}}
+                <li class="list-group-item clearfix">
+                  <p>{{this.content}}</p>
+                </li>
+                {{/each}}
+
+              </ul>
+              <a href="#" class="teal"><i class="fa fa-refresh" aria-hidden="true"></i> Load More</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <ul class="nav nav-tabs" role="tablist">
+              <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Resume</a></li>
+          </ul>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="home">
+              <ul class="list-group">
+
+                <li class="list-group-item clearfix">
+                  <h3 class="teal">3</h3> <span>Letters Completing</span>
+                </li>
+                <li class="list-group-item clearfix">
+                  <h3>4</h3>
+                  <span>Letters Pending Client Signatures</span>
+                </li>
+                <li class="list-group-item clearfix">
+                  <h3>4</h3>
+                  <span>Letters Pending Payments</span>
+                </li>
+
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <ul class="nav nav-tabs" role="tablist">
+              <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Signature</a></li>
+          </ul>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="home">
+              <label class="btn btn-white signup large  btn-file" style="margin-left: 0; padding-top: 14px; font-size: 13px; width: 80%">
+                Upload Signature <input type="file" style="display: none;">
+              </label>
+
+              <h4 class="teal">- or -</h4>
+
+              <button class="btn btn-white signup large" style="font-size: 13px; width: 80%" name="draw">Draw Signature</button>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+</template>

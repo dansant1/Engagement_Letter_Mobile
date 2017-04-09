@@ -1,0 +1,40 @@
+<template name="Auth">
+  <div class="container-auth">
+    <div class="col-6">
+      <h3>Logo</h3>
+
+      {{>Template.dynamic template=step}}
+    </div>
+    {{>splash}}
+  </div>
+</template>
+
+<template name="splash">
+  <div class="col-4">
+    <div class="splash">
+
+    </div>
+  </div>
+</template>
+
+<template name="Auth_Step_1">
+  <br><br><br>
+  <p class="teal">Welcome.</p>
+  <p class="steel">Signup For Engagement Letter App.</p>
+  <input type="email" name="email" value="{{email}}" placeholder="Email" class="input_material auth">
+  <input type="button" class="btn btn-white signup" name="signup" value="Next">
+  <span class="text steel">Do you have an account? <a href="/login" class="teal">Login</a></span>
+</template>
+
+
+<template name="Auth_Step_2">
+  <p class="teal">Complete your Info.</p>
+  <form>
+    <input type="text" name="firm_name" value="{{firmName}}" placeholder="Firm Name" class="input_material auth">
+    <input type="text" name="first_name" placeholder="First Name" value="{{name}}" class="input_material auth">
+    <input type="text" name="last_name" placeholder="Last Name" class="input_material auth">
+    <input type="number" name="phone_number" placeholder="Your Phone Number" class="input_material auth">
+    <input type="password" name="password" placeholder="Password (Minimun 8 characters)" class="input_material auth">
+    <input type="submit" class="btn btn-white signup" name="signup" value="Signup">
+  </form>
+</template>

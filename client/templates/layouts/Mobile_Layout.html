@@ -1,0 +1,15 @@
+<template name="Mobile_Layout">
+  <div class="all_page_teal">
+    <div class="profile_line">
+      <img src="/images/photo.png" alt="photo">
+      <span>Hello Dave,</span>
+    </div>
+    <ul class="menu_inline">
+      <li class="activo primero"><a href="/mobile" class="white">Home</a></li>
+      <li class="segundo"><a href="/mobile/letters" class="white">Letters</a></li>
+      <li class="tercero"><a href="/mobile" class="white">Payments</a></li>
+    </ul>
+
+    {{>Template.dynamic template=page}}
+  </div>
+</template>

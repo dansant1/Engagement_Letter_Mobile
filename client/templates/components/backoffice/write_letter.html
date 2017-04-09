@@ -1,0 +1,50 @@
+<template name="Write_Letter">
+  <br>
+  <div class="row">
+    <div class="col-md-5">
+      <h4 class="teal">Step 1 - Client Information</h4>
+      <select class="input_material auth" name="engagement_client">
+        <option value="0">-- Choose a Client --</option>
+        {{#each clients}}
+        <option value="{{this._id}}">{{this.company_name}}</option>
+        {{/each}}
+      </select>
+      <h4 class="teal">- or Add a New Client-</h4>
+      <input type="text" name="name" placeholder="Company Name" class="input_material auth">
+      <input type="text" name="address" placeholder="Company Address" class="input_material auth">
+      <input type="number" name="phone" placeholder="Company Phone" class="input_material auth">
+      <input type="text" name="client_name" placeholder="Client Name" class="input_material auth">
+      <input type="email" name="client_email" placeholder="Client Email" class="input_material auth">
+      <input type="button" value="Add Client" name="add_client" class="btn btn-white signup">
+    </div>
+
+    <div class="col-md-7">
+      <h4 class="teal">Step 2</h4>
+      <div class="col-md-6" style="padding: 0">
+        <label for="engagement_template" class="teal">Engagement Type</label>
+        <br>
+        <select class="input_material auth" id="engagement_type" name="engagement_type" style="width: 80%;
+      margin: 20px auto;">
+          <option value="0">--Choose Type--</option>
+          <option value="1">Type 2</option>
+          <option value="2">Type 3</option>
+        </select>
+      </div>
+      <br>
+      <textarea name="engagement" class="input_material area" rows="8" cols="80" placeholder="Describe the Engagement Scope"></textarea>
+      <br><br>
+      <label for="engagement_template" class="teal">Template Text</label>
+      <br>
+      <select class="input_material auth" id="engagement_template" name="engagement_template" style="width: 40%;
+    margin: 20px auto;">
+        <option value="?">--Choose Template--</option>
+        {{#each templates}}
+        <option value="{{this.content}}">{{this.name}}</option>
+        {{/each}}
+        <option value="n">--Add Template--</option>
+      </select>
+      <button class="btn btn-white signup" name="next">Next</button>
+    </div>
+  </div>
+  <br>
+</template>

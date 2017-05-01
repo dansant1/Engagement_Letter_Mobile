@@ -1,7 +1,6 @@
 import Remoto from '../../../../both/conexion'
 
-import { Clients, Templates, Parties } from '../../../../both/conexion'
-
+import { Letters, Clients, Templates, Parties } from '../../../../both/conexion'
 
 Template.Mobile_New_Letter.onCreated(() => {
 
@@ -24,7 +23,7 @@ Template.Mobile_New_Letter_2.events({
 
   'change [name="engagement_type"]'(e, t) {
 
-      if (e.target.value === "?" ) {
+      if (e.target.value !== "?" ) {
 
           let tipo = e.target.value
           console.log(tipo)
@@ -36,8 +35,9 @@ Template.Mobile_New_Letter_2.events({
             } else if ( tipo == "2") {
               t.find('[name="engagement"]').value = ' [the formation of the company and its initial stock issuances].  [You will be responsible for applying for and obtaining all taxpayer identification numbers and business licenses and for making any tax elections (such as S Corporation elections).  Individual stockholders will be responsible for timely filing their own tax filings (as we do not represent them), such as 83(b) elections.]'
               return
-            }
-
+            } 
+          } else {
+            t.find('[name="engagement"]').value = ''
           }
 
       } else {
@@ -81,14 +81,25 @@ Template.Mobile_New_Letter.events({
   },
   'click [name="next"]'(e, t) {
     let client = $('[name="engagement_client"]').val()
-
+    let letterId = FlowRouter.getParam('letterId')
     if (client !== "0") {
       Session.set('clientId', client)
+      
+      if ( letterId ) {
+        FlowRouter.go('/mobile/new_letter/write_letter/' + letterId)    
+      } else {
+        FlowRouter.go('/mobile/new_letter/write_letter')  
+      }
     
-      FlowRouter.go('/mobile/new_letter/write_letter')
+      
 
     } else {
-      alert('Choose a Client')
+      if ( !letterId ) {
+        alert('Choose a Client')
+      } else {
+        FlowRouter.go('/mobile/new_letter/write_letter/' + letterId) 
+      }
+      
     }
   }
 })
@@ -96,11 +107,31 @@ Template.Mobile_New_Letter.events({
 Template.Mobile_New_Letter_2.onCreated(() => {
 
   let template = Template.instance();
-
+  let letterId = FlowRouter.getParam('letterId')
   template.autorun(() => {
     Remoto.subscribe('Templates')
+    
+    if (letterId) {
+      Remoto.subscribe('Letter', letterId)
+    }
+
+
   })
 
+})
+
+
+Template.Mobile_New_Letter_2.helpers({
+  engagement() {
+    let letterId = FlowRouter.getParam('letterId')
+
+    if (letterId) {
+      console.log(Letters.findOne().engagement)
+      return Letters.findOne().engagement
+    } else {
+      return ''
+    }
+  }
 })
 
 Template.Mobile_New_Letter_2.events({
@@ -109,18 +140,52 @@ Template.Mobile_New_Letter_2.events({
     let engagement_type = $('#engagement_type').val()
     let engagement_client = Session.get('clientId')
     let clientId = Session.get('clientId')
+    let letterId = FlowRouter.getParam('letterId')
     if (engagement !== "" && engagement_type !== '0') {
 
-      Remoto.call('createEngagementLetter1', engagement_type, engagement_client, engagement, clientId, (err, result) => {
-        if (err) {
-          alert(err)
-        } else {
-          FlowRouter.go('/mobile/new_letter/conflicts/' + result)
-        }
-      })
+      if (letterId) {
+        engagement_client = Letters.findOne().engagement_client
+        engagement_type  = Letters.findOne().engagement_type
+        Remoto.call('editEngagementLetter1', letterId, engagement_type, engagement_client, engagement, clientId, (err, result) => {
+          if (err) {
+            alert(err)
+          } else {
+            FlowRouter.go('/mobile/new_letter/conflicts/' + letterId)
+          }
+        })
+
+      } else {
+
+        Remoto.call('createEngagementLetter1', engagement_type, engagement_client, engagement, clientId, (err, result) => {
+          if (err) {
+            alert(err)
+          } else {
+            FlowRouter.go('/mobile/new_letter/conflicts/' + result)
+          }
+        })
+        
+      }
+
+      
 
     } else {
-      alert('Type the Letter')
+
+      if (letterId) {
+        engagement_client = Letters.findOne().engagement_client
+        engagement_type  = Letters.findOne().engagement_type
+        
+        Remoto.call('editEngagementLetter1', letterId, engagement_type, engagement_client, engagement, clientId, (err, result) => {
+          if (err) {
+            alert(err)
+          } else {
+            FlowRouter.go('/mobile/new_letter/conflicts/' + letterId)
+          }
+        })
+
+      } else {
+         alert('Type the Letter')
+      }
+     
     }
 
   },
@@ -227,6 +292,7 @@ Template.Mobile_New_Letter_5.onCreated( () => {
 
   template.textBox = new ReactiveVar(false)
   template.hourly = new ReactiveVar(true)
+  template.deposit = new ReactiveVar(0)
   template.payment = new ReactiveVar([])
   template.discount = new ReactiveVar([])
   template.array = []
@@ -235,7 +301,20 @@ Template.Mobile_New_Letter_5.onCreated( () => {
 
 
   template.autorun(() => {
+  
+    let letterId = FlowRouter.getParam('letterId')
+    Remoto.subscribe('Letter', letterId, () => {
+      if (Letters.findOne().secondTotal) {
+        console.log(Letters.findOne().secondTotal)
+         template.secondTotal.set(Letters.findOne().secondTotal) 
+      }
+
+      if (Letters.findOne().deposit) {
+         template.deposit.set(Letters.findOne().deposit)
+      }
+    })
     Remoto.subscribe('Clients')
+  
   })
 
 })
@@ -245,6 +324,7 @@ Template.Mobile_New_Letter_5.helpers({
     return Template.instance().texto.get()
   },
   textBox() {
+
     return Template.instance().textBox.get()
   },
   lawyers() {
@@ -263,15 +343,31 @@ Template.Mobile_New_Letter_5.helpers({
     return Template.instance().total.get()
   },
   estimate() {
-    return Template.instance().secondTotal.get()
+
+    
+
+    return Template.instance().secondTotal.get()  
   },
-  /*deferral() {
+  deferral() {
     if (FlowRouter.getParam('letterId')) {
       return Letters.findOne().deferral
     } else {
       return ''
     }
-  }*/
+  },
+  amount() {
+    return Letters.findOne().secondTotal + Letters.findOne().deposit
+  },
+  deposit() {
+    return Template.instance().deposit.get()  
+  },
+  isEdit() {
+    if (Letters.findOne().payment[0]) {
+      return true
+    } else {
+      return false
+    }
+  }
 })
 
 Template.Mobile_New_Letter_5.events({
@@ -337,10 +433,12 @@ Template.Mobile_New_Letter_5.events({
     let price = t.find('[name="amount"]').value
     let discount = t.find('[name="discount"]').value
     let deposit_amount = t.find('[name="deposit_amount"]').value
-    let deferral = null
+    let deferral = t.find("[name='deferral']").value
 
     if ( t.find('[name="deferral"]') ) {
       deferral = t.find('[name="deferral"]').value  
+    } else {
+      deferral = null
     }
      
 
@@ -365,30 +463,41 @@ Template.Mobile_New_Letter_5.events({
 
 
       if (t.texto.get() === "Rate") {
-        a.push({
-          lawyer: null,
-          type: "Hourly",
-          price: price
-        })
+
+        
+          a.push({
+            lawyer: null,
+            type: "Hourly",
+            price: price
+          })
+        
+
+       
 
       } else if (t.texto.get() === "Project Estimate") {
-          array.push({
+
+        
+         array.push({
             lawyer: null,
             type: "Project",
             price: price
           })
+        
 
           a = array;
 
       } else if (t.texto.get() === "Montly Retainer") {
-        array.push({
-          lawyer: null,
-          type: "Retainer",
-          price: price
-        })
 
+       
+          array.push({
+            lawyer: null,
+            type: "Retainer",
+            price: price
+          })
+        
+        
         a = array;
-      }
+      } 
 
 
 
@@ -411,17 +520,22 @@ Template.Mobile_New_Letter_5.events({
         deferral = null
       }
 
+      if ($('[name="engagement_charge"]').val() !== '0') {
+        Remoto.call('paymentEngagementLetter', t.payment.get(), t.total.get(), t.hourly.get(), deposit_amount, deferral, letterId, t.secondTotal.get(), (err) => {
+          if (err) {
+            alert(err)
+          } else {
+
+            Remoto.call('sendLetterToClient', letterId)
+
+            FlowRouter.go('/mobile')
+          }
+        })  
+      } else {
+        alert('Choose a type of charge')
+      }
     
-      Remoto.call('paymentEngagementLetter', t.payment.get(), t.total.get(), t.hourly.get(), deposit_amount, deferral, letterId, t.secondTotal.get(), (err) => {
-        if (err) {
-          alert(err)
-        } else {
-
-          Remoto.call('sendLetterToClient', letterId)
-
-          FlowRouter.go('/mobile')
-        }
-      })
+      
     } else {
       alert('Complete the payment Information')
 

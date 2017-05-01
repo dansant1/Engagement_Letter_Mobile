@@ -3,48 +3,232 @@
     <div class="container" style="background-color: teal">
       <br>
       <div class="row">
-
+        {{#with letter}}
         <div class="col-md-4" style="background-color: teal">
-          <h4 class="white">Letter 1 by Lawyer 1</h4>
+        
           <div class="box__steel">
             <ul class="list-group">
 
               <li class="list-group-item clearfix">
                 <span class="pull-left">Created by: </span>
-                <span class="pull-right">Lawyer 1</span>
+                <span class="pull-right">{{lawyer}}</span>
               </li>
 
 
               <li class="list-group-item clearfix">
                 <span class="pull-left">Created at: </span>
-                <span class="pull-right">3:45 pm March 18, 2017</span>
+                <span class="pull-right">{{date}}</span>
               </li>
 
               <li class="list-group-item clearfix">
                 <span class="pull-left">Status: </span>
-                <span class="pull-right">Draft</span>
+                <span class="pull-right">{{estatus}}</span>
               </li>
 
               <li class="list-group-item clearfix">
                 <span class="pull-left">Client: </span>
-                <span class="pull-right">Daniel Delgadillo</span>
+                <span class="pull-right">{{client}}</span>
               </li>
 
               <li class="list-group-item clearfix">
                 <span class="pull-left">Amount to Pay: </span>
-                <span class="pull-right">$ 4,900.00</span>
+                <span class="pull-right">$ {{this.total}}</span>
               </li>
 
             </ul>
-            <a href="#" class="btn btn-white signup" name="next">Send</a>
+            <a href="#" class="btn btn-white signup" name="next">Edit</a>
           </div>
         </div>
+
+        {{/with}}
         <div class="col-md-8">
-          <h4 class="teal">Preview</h4>
-          <iframe src="/copia.pdf" class="preview"></iframe>
+          <a href="/mobile/preview/{{letterId}}" class="btn btn-white signup" style="width: 100%; ;background-color: white; color: teal">Preview</a>
         </div>
       </div>
     </div>
   </div>
 
+</template>
+
+<template name="Preview">
+  <div class="container__draw">
+    <h2 style="color: teal; margin-left: 10px;"><a href="/mobile/view_letter/{{letterId}}"><i style="display: inline-block; color: teal; margin-right: 10px;" class="fa fa-chevron-left" aria-hidden="true"></i></a>Preview</h2>
+    <br>
+    
+    <div class="container">
+      {{>frameLetter}}
+    </div>
+  </div>
+</template>
+
+
+<template name="frameLetter">
+  <div class="frame">
+          <div class="content">
+            {{#if Template.subscriptionsReady}}
+              <hr>
+              {{#with letter}}
+                <p>
+                  {{#with logo}}
+                    <img id="logo_letter" src="{{this.url}}" alt="{{this.url}}">
+                  {{/with}}
+                </p>
+                <p>{{firmName}}</p>
+                <p>{{lawyer}}</p>
+                <p  class="cent">{{date}}</p>
+                <p>{{clientCompany}}</p>
+                <p>{{clientAddress}}</p>
+                <p>Re:  Engagement Terms</p>
+                <p>Dear {{clientName}}, </p>
+
+                {{#if joe}}
+                <p>Thank you for selecting {{firmName}}, to represent {{clientCompany}}, a corporation (the “Company”), also referred to as “you” throughout this letter.  We will represent the entity and none of its officers, directors or shareholders.  This letter confirms the terms on which we will represent you (the Company) in this matter.
+                </p>
+                {{/if}}
+
+                {{#if susan}}
+                <p>
+                  Thank you for selecting {{firmName}} {{this.engagement}}
+                </p>
+
+                {{/if}}
+
+                {{#if joe}}
+                <p>
+                  We understand that we will be representing you in connection with {{this.engagement}} We will also represent you in connection with other matters as we may agree to from time to time. The following are excluded from our services:  {{this.exclusion}}
+                </p>
+                {{/if}}
+
+                {{#if susan}}
+                <p>
+                  We have checked entity and adverse party names to see if our representing you would create a conflict of interest for our firm and have detected no apparent conflicts of interest, vis-à-vis other clients.  Please let us know if there are affiliated organizations or other parties related to this matter that should be checked for potential conflicts of interest.
+                </p>
+                {{/if}}
+
+                {{#if joe}}
+                <p>Please be aware that it is the responsibility of the officers and directors of the company to make sure that the company meets the various deadlines applicable to it.  There are a variety of deadlines that will apply to your business.  For example, if you sell securities you may have to file a Form D within 15 days of the first sale.  We cannot help the company meet this deadline unless you retain us to do so and unless you keep us informed.  For example, if you don’t tell us that you made a sale of securities until after the deadline, you will have missed the deadline.  Or, if you don’t tell us you sold securities until the 13th day after the first sale, we probably won’t be able to meet the deadline if you don’t yet have your SEC filing codes because they take a couple of days to obtain, typically.  Similarly, if you accept investments from foreign persons, you may have to file information reports with the U.S. Bureau of Economic Analysis.  It is your responsibility to file such reports, unless you specifically retain us to do so.  Please keep us apprized on a regular and consistent basis of your business so that we can be of assistance to you.  </p>
+                {{/if}}
+
+                <p>
+                  I will be the lawyer primarily responsible for this matter.  In order to make our services as cost effective and timely as possible and to take advantage of specialized knowledge, I may delegate portions of the work to other selected lawyers and paralegals.
+                  {{#if hourly}}
+                  Hourly rate is $ {{this.total}}
+                  {{/if}}
+
+                  {{#if project}}
+                  The project estimate is $ {{this.total}}. {{#if this.deposit}}  The deposit is $ {{this.deposit}} {{/if}}
+                  {{/if}}
+
+                  {{#if retainer}}
+                    The monthly retainer for this project is $ {{this.total}}
+                  {{/if}}
+                </p>
+
+                {{#if joe}}
+                <p>
+                  During the course of representing you, we may need to pay third parties for filing or similar fees.  We may ask you to provide us with a credit card number to pay such amounts.  Alternatively, if we advance them on your behalf, you agree to reimburse us promptly.
+
+                </p>
+                {{/if}}
+
+                <p>
+                  We will endeavor to inform you promptly of material developments in our work and will consult with you about decisions relating to those matters.  We encourage you to advise us of developments that might affect our work for you and to let us know of any concerns or questions you might have about our services.  While we cannot promise any particular result in this matter, we will use our best efforts to obtain the most favorable outcome.
+                </p>
+
+                <p>
+                  We would like to remind you that communications between you and our firm relating to our legal advice are confidential and, in most circumstances, protected from disclosure in court proceedings by the attorney-client privilege.  Not only oral communications, but also letters, notes of conversations, e-mails and documents (including our billings) are usually covered by the privilege.  In order to protect this privilege, you should not discuss or otherwise disclose to anyone our advice to you or any related documents.  If you have any questions regarding the attorney-client privilege, please ask.
+                </p>
+
+                <p>
+                  Please review the following standard terms of engagement and call me if you have any questions.  Unless otherwise agreed in writing by us, these terms will govern our relationship with {{clientName}}
+                </p>
+
+                <p>
+                  <span class="subline">Legal Fees.</span>  In general, or unless otherwise agreed in writing, our fees will be based on our standard hourly rates for actual time spent by lawyers, paralegals and other staff members working on your matters, and the factors set forth in the applicable laws and rules governing the practice of law, including Rule 1.5 of the Washington Rules of Professional Conduct.  Our billing rates are subject to change from time-to-time.  You should expect to be charged for all time expended on your behalf.
+                </p>
+
+                <p>
+                  <span class="subline">Costs and Expenses.</span>  We may advance or incur certain other costs and expenses on your behalf that will be charged to you.  These may include long distance telephone charges, special mailings (e.g., certified, registered, overnight or special delivery), photocopying, facsimiles, computerized research, third-party messenger services, courier services, court reporters, court costs, filing fees, experts, travel expenses, costs to store materials related to your matters, and other third party costs.  These costs are incurred on your behalf, and, if paid by us for administrative convenience, you are responsible to reimburse us.  You may also be asked to pay directly certain expenses related to your representation.
+                </p>
+
+                <p>
+                  <span class="subline">No Assurance of Results or Costs.</span>  Because legal representation is affected by many factors outside our control, regardless of any estimates of costs or predicted results that may be given, we cannot assure results or guarantee total costs.
+                </p>
+
+
+
+                {{#if retainer}}
+                  <p>
+                  <span class="subline">Monthly Statements.</span>  Generally, we will provide you with monthly statements.  Payment is due upon receipt of our bill.  If not paid in full within 30 days of the statement date, your account will incur late charges at 1% per month.  If you do not keep your account current, we reserve the right to apply any deposits in trust, suspend work and/or withdraw from further representation as provided below.
+                  </p>
+
+                {{/if}}
+
+                {{#if this.deferral}}
+                  <p>
+                    {{this.deferral}}
+                  </p>
+                {{/if}}
+
+                <p>
+                   <span class="subline">Termination of Services.</span>  You may terminate our firm’s services at any time, subject to the payment of then incurred fees and costs, together with payment of any charges for dealing with any successor counsel.  Similarly, we retain the right to cease performing legal services and terminate our representation of you for any reason consistent with applicable rules of professional conduct, including conflicts of interest and nonpayment of legal fees.  We will try to identify in advance and discuss any situation that may lead to our withdrawal and, if withdrawal becomes necessary, we will provide you with written notice prior to our withdrawal.
+                </p>
+
+                <p>
+                   <span class="subline">Dispute Resolution.</span>  All terms of this engagement shall be interpreted under the laws of the State of Washington.
+                </p>
+
+                <p>
+                  <span class="subline">Client Files. </span> Once your matter has been concluded, your file will be closed.  All files will be purged by our assistants for (1) duplicate documents, and (2) original documents (which will be returned to you).  All client files will be destroyed after seven years from the date the matter is closed.
+                </p>
+
+                <p>
+                  <span class="subline">Legal Services Only.</span>  As lawyers, we provide legal services only.  For example, we do not provide investment banking services or financial advisory services of any kind.  We are happy to work with other professional service providers you may engage.
+                </p>
+
+                <p>
+                  If the foregoing is acceptable to you, please indicate your acceptance by signing a copy of this letter and returning it to us.
+                </p>
+
+                <p>
+                  Again, thank you for choosing {{firmName}}.  We look forward to working with you.
+                </p>
+                <br>
+                <p class="cent">
+                  Very truly yours,
+                </p>
+                {{#with signature}}
+                <p>
+                  <img class="sign_letter" src="{{this.url}}" alt="{{this.url}}">
+                  <br>
+                  <span class="line"></span>
+
+                  <p class="cent">{{lawyer}}</p>
+                </p>
+                {{/with}}
+               <br>
+                <p class="cent">
+                  <span class="subline">CONSENT AND AGREEMENT</span>
+                </p>
+                <p>
+                  The undersigned has read, understands and agrees to be bound by the terms and conditions of representation set forth above.
+                </p>
+
+                <p>{{clientCompany}}</p>
+                <br>
+                <p>
+                  By {{lawyer}}
+                </p>
+                <p>
+                  Date {{date}}
+                </p>
+              {{/with}}
+              <br>
+
+                <p><hr></p>
+            {{else}}
+              <h2>Loading...</h2>
+            {{/if}}
+          </div>
+        </div>
 </template>

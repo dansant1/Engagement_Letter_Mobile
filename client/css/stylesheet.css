@@ -317,7 +317,7 @@ ul.list-group li {
 
 .letter p {
   width: 80%;
-
+  margin: 0px auto;
   text-align: center;
   position: relative;
   top: 30%;
@@ -647,4 +647,52 @@ color:#1fc1c8;
   margin: 10px auto;
   border: 2px solid #ddd;
   padding: 10px;
+}
+
+.frame {
+  width: 100%;
+  margin: 0px auto;
+  height: 80vh;
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+
+.frame > .content {
+  min-height: 800px;
+  background-color: white;
+  color: black;
+  padding: 0px;
+  margin: 0px auto;
+}
+
+.cent {
+  text-align: center !important;
+}
+
+.frame > .content p {
+  width: 100%;
+  margin: 5px auto;
+  text-align: justify;
+  text-justify: inter-word;
+}
+
+.subline {
+  font-weight: bold;
+  text-transform: uppercase;
+  text-decoration: underline;
+}
+
+.sign_letter {
+  width: 40%;
+  height: 120px;
+  margin: 5px auto;
+  display: block;
+}
+
+.line {
+  display: block;
+  width: 240px;
+  margin: 0 auto;
+  border: 1px solid black;
+  background-color: black;
 }

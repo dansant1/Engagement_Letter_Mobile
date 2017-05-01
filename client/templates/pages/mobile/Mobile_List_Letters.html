@@ -11,11 +11,11 @@ display: block">
 
     {{#each letters}}
     <div class="letter" style="background-color: white; height: 350px; width: 100%; margin: 15px auto;">
-      <p>Client 1 - Letter 1</p>
+      <p>{{client}}</p>
       <br>
       <p>
         <a href="/mobile/view_letter/{{this._id}}" class="button"><i class="fa fa-eye" aria-hidden="true"></i></a>
-        <a href="#" class="button"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+        <a href="/mobile/edit/{{this._id}}" class="button"><i class="fa fa-pencil" aria-hidden="true"></i></a>
       </p>
     </div>
     {{/each}}

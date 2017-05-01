@@ -55,6 +55,13 @@ FlowRouter.route('/mobile/new_letter/write_letter', {
   }
 })
 
+FlowRouter.route('/mobile/new_letter/write_letter/:letterId', {
+  name: 'Mobile Design New Letter 2',
+  action() {
+    BlazeLayout.render('Mobile_New_Letter_2')
+  }
+})
+
 FlowRouter.route('/mobile/new_letter/write_exclusion', {
   name: 'Mobile Design New Letter 3',
   action() {
@@ -68,8 +75,6 @@ FlowRouter.route('/mobile/create-template', {
     BlazeLayout.render('Mobile_New_Template')
   }
 })
-
-
 
 FlowRouter.route('/mobile/draw', {
   name: 'Draw Signature',
@@ -99,6 +104,13 @@ FlowRouter.route('/mobile/new_letter/signature', {
   }
 })
 
+FlowRouter.route('/mobile/edit/:letterId', {
+  name: 'Edit Letter',
+  action() {
+    BlazeLayout.render("Mobile_New_Letter")
+  }
+})
+
 FlowRouter.route('/mobile/draw_signature', {
   name: 'Mobile Design Draw Signature',
   action() {
@@ -113,7 +125,14 @@ FlowRouter.route('/mobile/letters', {
   }
 })
 
-FlowRouter.route('/mobile/view_letter', {
+FlowRouter.route('/mobile/preview/:letterId', {
+  name: 'Preview of Letter',
+  action() {
+    BlazeLayout.render('Preview')
+  }
+})
+
+FlowRouter.route('/mobile/view_letter/:letterId', {
   name: 'Mobile Design View of Letter',
   action() {
     BlazeLayout.render('Mobile_Layout', { page: 'mobile_view_letter'})

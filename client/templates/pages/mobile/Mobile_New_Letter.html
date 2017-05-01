@@ -45,7 +45,7 @@
       <option value="2">Joe's Type</option>
     </select>
 
-    <textarea name="engagement" class="input_material area" rows="8" cols="80" style="width: 90%; margin: 0 auto;" placeholder="Describe the Engagement Scope"></textarea>
+    <textarea name="engagement" class="input_material area" rows="8" cols="80" style="width: 90%; margin: 0 auto;" placeholder="Describe the Engagement Scope">{{engagement}}</textarea>
     <label for="engagement_template" class="teal">Template Text</label>
     <br>
     <select class="input_material auth" id="engagement_template" name="engagement_template" style="width: 90%;
@@ -74,7 +74,7 @@
   </div>
   <div class="content">
 
-    <textarea name="engagement" class="input_material area" rows="8" cols="80" style="width: 90%; margin: 0 auto;" placeholder="Describe work outside of scope"></textarea>
+    <textarea name="engagement" class="input_material area" rows="8" cols="80" style="width: 90%; margin: 0 auto;" placeholder="Describe work outside of scope" >{{engagement}}</textarea>
 
     <label for="engagement_template" class="teal">Template Text</label>
     <br>
@@ -145,17 +145,19 @@
   <div class="content">
 
     <select style="border-radius: 0px" class="input_material auth" name="engagement_charge">
-
+      <option value="0">--Choose a Type--</option>
       <option value="1">Hourly</option>
       <option value="2">Retainer</option>
       <option value="3">Project</option>
     </select>
 
-    <input type="number" name="amount" placeholder="{{text}}" class="input_material auth">
+    <input type="number" value="{{amount}}" name="amount" placeholder="{{text}}" class="input_material auth">
     <input type="number" name="discount" placeholder="Discount %" class="input_material auth">
     <hr>
     <input type="number" name="project_estimate" value="{{estimate}}" disabled placeholder="Project Estimate" class="input_material auth">
-    <input type="number" name="deposit_amount" placeholder="Deposit Amount" class="input_material auth">
+    <input type="number" name="deposit_amount" value="{{deposit}}" placeholder="Deposit Amount" class="input_material auth">
+    <hr>
+    <textarea name="deferral" value="{{deferral}}" class="input_material area" rows="8" cols="80" style="width: 90%; margin: 0 auto;" placeholder="Describe the Deferral (Optional)"></textarea>
     <br>
     <label for="checkbox1">Recurring Payment</label>
     <br><br>
@@ -166,7 +168,12 @@
 
     <hr>
 
+    {{#if isEdit}}
+
+    <a href="/mobile"  style="font-size: 13px; width: 100%; margin: 30px auto; padding-top: 15px;" class="btn btn-white signup" name="next">Save</a>
+    {{else}}
     <a href="#"  style="font-size: 13px; width: 100%; margin: 30px auto; padding-top: 15px;" class="btn btn-white signup" name="next">Send to Client</a>
+    {{/if}}
   </div>
 
 </div>

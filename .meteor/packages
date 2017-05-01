@@ -27,3 +27,6 @@ accounts-password
 themeteorchef:bert
 alanning:roles
 session
+ddp
+u2622:persistent-session
+ongoworks:ddp-login

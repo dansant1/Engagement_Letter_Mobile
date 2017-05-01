@@ -1,3 +1,7 @@
+body, html {
+    background-color: var(--teal)
+}
+
 input, textarea {
     -webkit-appearance: none;
     -webkit-border-radius:0px;
@@ -10,6 +14,10 @@ input, textarea {
 a:focus, a:hover {
   color: white;
   text-decoration: none;
+}
+
+textarea {
+   resize: none;
 }
 
 .navbar {

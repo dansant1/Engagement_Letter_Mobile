@@ -62,14 +62,30 @@ FlowRouter.route('/mobile/new_letter/write_exclusion', {
   }
 })
 
-FlowRouter.route('/mobile/new_letter/conflicts', {
+FlowRouter.route('/mobile/create-template', {
+  name: 'Create Template',
+  action() {
+    BlazeLayout.render('Mobile_New_Template')
+  }
+})
+
+
+
+FlowRouter.route('/mobile/draw', {
+  name: 'Draw Signature',
+  action() {
+    BlazeLayout.render('Mobile_Draw')
+  }
+})
+
+FlowRouter.route('/mobile/new_letter/conflicts/:letterId', {
   name: 'Mobile Design New Letter 4',
   action() {
     BlazeLayout.render('Mobile_New_Letter_4')
   }
 })
 
-FlowRouter.route('/mobile/new_letter/payments', {
+FlowRouter.route('/mobile/new_letter/payments/:letterId', {
   name: 'Mobile Design New Letter 5',
   action() {
     BlazeLayout.render("Mobile_New_Letter_5")

@@ -22,9 +22,9 @@
       <input type="number" name="phone" placeholder="Company Phone" class="input_material auth">
       <input type="text" name="client_name" placeholder="Contact Name" class="input_material auth">
       <input type="email" name="client_email" placeholder="Client Email" class="input_material auth">
-      <a href="#" class="btn btn-white signup large new white" style="background: white; font-size: 13px; width: 90%; margin: 30px auto; padding-top: 15px; color: teal" name="add_client"><i class="fa fa-plus" aria-hidden="true"></i> Add Client</a>
+      
       <a href="#" class="btn btn-white signup large new" style="font-size: 13px; width: 90%; margin: 30px auto; padding-top: 15px;" name="next"><i class="fa fa-plus" aria-hidden="true"></i> Next</a>
-
+      
     </div>
   </div>
 </template>
@@ -109,7 +109,7 @@
       <ul class="list-group">
         {{#each parties}}
         <li class="list-group-item clearfix">
-          <span class="pull-left">{{this.name}}</span>
+          <span class="pull-left">{{this.name}}</span><span class="pull-right remove"><i class="fa fa-trash" aria-hidden="true"></i></span>
         </li>
         {{/each}}
       </ul>
@@ -122,13 +122,16 @@
         <ul class="list-group">
           {{#each opossingParties}}
           <li class="list-group-item clearfix">
-            <span class="pull-left">{{this.name}}</span>
+            <span class="pull-left">{{this.name}}</span><span class="pull-right remove"><i class="fa fa-trash" aria-hidden="true"></i></span>
           </li>
           {{/each}}
         </ul>
 
 
     <button  style="font-size: 13px; width: 100%; margin: 30px auto; padding-top: 15px;" class="btn btn-white signup" {{disabled}} name="next">Next</button>
+     <a id="point"  style="width: 30%; display: inline-block; margin-left: 20px; position: relative; top: 10px; color: white" name="skip">Skip</a>
+     <br>
+     <br>
   </div>
 
 </div>
@@ -145,16 +148,12 @@
   <div class="content">
 
     <select style="border-radius: 0px" class="input_material auth" name="engagement_charge">
-      <option value="0">--Choose a Type--</option>
       <option value="1">Hourly</option>
       <option value="2">Retainer</option>
       <option value="3">Project</option>
     </select>
 
-    <input type="number" value="{{amount}}" name="amount" placeholder="{{text}}" class="input_material auth">
-    <input type="number" name="discount" placeholder="Discount %" class="input_material auth">
-    <hr>
-    <input type="number" name="project_estimate" value="{{estimate}}" disabled placeholder="Project Estimate" class="input_material auth">
+    
     <input type="number" name="deposit_amount" value="{{deposit}}" placeholder="Deposit Amount" class="input_material auth">
     <hr>
     <textarea name="deferral" value="{{deferral}}" class="input_material area" rows="8" cols="80" style="width: 90%; margin: 0 auto;" placeholder="Describe the Deferral (Optional)"></textarea>
@@ -162,7 +161,7 @@
     <label for="checkbox1">Recurring Payment</label>
     <br><br>
     <div id="toggles">
-      <input type="checkbox" name="checkbox1" id="checkbox1" class="ios-toggle" />
+      <input type="checkbox" {{checked}} disabled name="checkbox1" id="checkbox1" class="ios-toggle" />
       <label for="checkbox1" class="checkbox-label white" data-off="Recurring off" data-on="Recurring on"></label>
     </div>
 

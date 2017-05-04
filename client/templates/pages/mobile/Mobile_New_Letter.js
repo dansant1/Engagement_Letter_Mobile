@@ -95,7 +95,35 @@ Template.Mobile_New_Letter.events({
 
     } else {
       if ( !letterId ) {
-        alert('Choose a Client')
+        let data = {
+          company_name: t.find("[name='name']").value,
+          company_address: t.find("[name='address']").value,
+          company_phone: t.find("[name='phone']").value,
+          company_client_name: t.find("[name='client_name']").value,
+          company_client_email: t.find("[name='client_email']").value,
+        }
+
+        if (data.client_name !== "" && data.company_address !== "" && data.company_phone !== "" && data.company_client_name !== ""  && data.company_client_email !== "") {
+          
+          Remoto.call('add_client', data, (err, result) => {
+            if (err) {
+              alert(err)
+            } else {
+              t.find("[name='name']").value = ""
+              t.find("[name='address']").value = ""
+              t.find("[name='phone']").value = ""
+              t.find("[name='client_name']").value = ""
+              t.find("[name='client_email']").value = ""
+              Session.set('clientId', result)
+
+              FlowRouter.go('/mobile/new_letter/write_letter')
+            }
+          })
+
+        } else {
+          alert('Complete the Data of the Client')
+        }
+
       } else {
         FlowRouter.go('/mobile/new_letter/write_letter/' + letterId) 
       }
@@ -213,11 +241,20 @@ Template.Mobile_New_Letter_4.onCreated(() => {
 })
 
 Template.Mobile_New_Letter_4.events({
+  'click .remove'(e, t) {
+    Remoto.call('removeParty', this._id, (err) => {
+      if (!err) {
+        alert('Party Removed', 'success')
+      } else {
+        alert(err, 'danger') 
+      }
+    })
+  },
   'click [name="add_party"]'(e, t) {
     let name = t.find('[name="partyname"]').value
     let letterId = FlowRouter.getParam('letterId')
     let type = "0";
-    console.log('name')
+   
     if (name !== "") {
       Remoto.call('addParty', name, type, letterId, (err) => {
         if (err) {
@@ -258,6 +295,10 @@ Template.Mobile_New_Letter_4.events({
   'click [name="next"]'(e, t) {
     let letterId = FlowRouter.getParam('letterId')
     FlowRouter.go('/mobile/new_letter/payments/' + letterId)
+  },
+  'click [name="skip"]'(e, t) {
+    let letterId = FlowRouter.getParam('letterId')
+    FlowRouter.go('/mobile/new_letter/payments/' + letterId)
   }
 })
 
@@ -292,7 +333,7 @@ Template.Mobile_New_Letter_5.onCreated( () => {
 
   template.textBox = new ReactiveVar(false)
   template.hourly = new ReactiveVar(true)
-  template.deposit = new ReactiveVar(0)
+  template.deposit = new ReactiveVar()
   template.payment = new ReactiveVar([])
   template.discount = new ReactiveVar([])
   template.array = []
@@ -320,43 +361,12 @@ Template.Mobile_New_Letter_5.onCreated( () => {
 })
 
 Template.Mobile_New_Letter_5.helpers({
-  text() {
-    return Template.instance().texto.get()
-  },
-  textBox() {
-
-    return Template.instance().textBox.get()
-  },
-  lawyers() {
-    return Meteor.users.find()
-  },
-  isHourly() {
-    return Template.instance().hourly.get()
-  },
-  payment() {
-    return Template.instance().payment.get()
-  },
-  discount() {
-    return Template.instance().discount.get()
-  },
-  total() {
-    return Template.instance().total.get()
-  },
-  estimate() {
-
-    
-
-    return Template.instance().secondTotal.get()  
-  },
   deferral() {
     if (FlowRouter.getParam('letterId')) {
       return Letters.findOne().deferral
     } else {
       return ''
     }
-  },
-  amount() {
-    return Letters.findOne().secondTotal + Letters.findOne().deposit
   },
   deposit() {
     return Template.instance().deposit.get()  
@@ -367,179 +377,67 @@ Template.Mobile_New_Letter_5.helpers({
     } else {
       return false
     }
+  },
+  checked() {
+    let recurring = Letters.findOne().recurring
+    if (recurring) {
+      if (recurring === true) {
+        return 'checked'  
+      } else {
+        return ''
+      }
+      
+    } else {
+      return ''
+    }
   }
 })
 
 Template.Mobile_New_Letter_5.events({
- 'keyup [name="discount"]'(e, t) {
-    let amount = t.find('[name="amount"]').value
-    let discount = t.find('[name="discount"]').value
-    total = amount - (amount/100*discount)
-
-    t.secondTotal.set(total)
-  },
-  'keyup [name="amount"]'(e, t) {
-    let amount = t.find('[name="amount"]').value
-    let discount = t.find('[name="discount"]').value
-    total = amount - (amount/100*discount)
-
-    t.secondTotal.set(total)
-  },
-  'change [name="engagement_charge"]'(e, t) {
-
-    if (e.target.value === "1") {
-      t.texto.set('Rate')
-      t.textBox.set(false)
-      t.hourly.set(true)
-      t.payment.set([])
-      t.total.set(0)
-      t.find('[name="amount"]').value = ""
-      t.find('[name="discount"]').value = ""
-      t.find('[name="project_estimate"]').value = ""
-      t.secondTotal.set(0)
-      t.find('[name="deposit_amount"]').value = ""
-
-
-    } else if (e.target.value === "2" ) {
-      t.texto.set('Montly Retainer')
-      t.textBox.set(true)
-      t.hourly.set(false)
-      $('[name="lawyers"]').remove()
-      t.payment.set([])
-      t.total.set(0)
-      t.find('[name="amount"]').value = ""
-      t.find('[name="discount"]').value = ""
-      t.find('[name="project_estimate"]').value = ""
-      t.secondTotal.set(0)
-      t.find('[name="deposit_amount"]').value = ""
-
-    } else if (e.target.value === "3") {
-      $('[name="lawyers"]').remove()
-      t.hourly.set(false)
-      t.texto.set('Project Estimate')
-      t.textBox.set(true)
-      t.total.set(0)
-      t.payment.set([])
-      t.find('[name="amount"]').value = ""
-      t.find('[name="discount"]').value = ""
-      t.find('[name="project_estimate"]').value = ""
-      t.secondTotal.set(0)
-      t.find('[name="deposit_amount"]').value = ""
+  'keyup [name="deposit_amount"]'(e, t) {
+    if (e.target.value !== "") {
+      $('#checkbox1').prop('disabled', false)
+    } else {
+      $('#checkbox1').prop('disabled', true)
+      $('#checkbox1').prop('checked', false)
     }
-
   },
   'click [name="next"]'(e, t) {
+    
     let letterId = FlowRouter.getParam('letterId')
-    let price = t.find('[name="amount"]').value
-    let discount = t.find('[name="discount"]').value
     let deposit_amount = t.find('[name="deposit_amount"]').value
     let deferral = t.find("[name='deferral']").value
 
-    if ( t.find('[name="deferral"]') ) {
-      deferral = t.find('[name="deferral"]').value  
-    } else {
+    if ( deferral === "" ) {
       deferral = null
-    }
+    } 
      
-
-    let a = t.payment.get()
-    let array = []
-    if (price !== "") {
-      price = parseInt(price)
-
-      if (discount !== "") {
-        discount = parseInt(discount)
-
-        price = price - (price/100*discount)
-      }
-
-      if (deposit_amount !== "") {
-        deposit_amount = parseInt(deposit_amount)
-
-        price = price - deposit_amount
-      } else {
-        deposit_amount = null
-      }
-
-
-      if (t.texto.get() === "Rate") {
-
-        
-          a.push({
-            lawyer: null,
-            type: "Hourly",
-            price: price
-          })
-        
-
-       
-
-      } else if (t.texto.get() === "Project Estimate") {
-
-        
-         array.push({
-            lawyer: null,
-            type: "Project",
-            price: price
-          })
-        
-
-          a = array;
-
-      } else if (t.texto.get() === "Montly Retainer") {
-
-       
-          array.push({
-            lawyer: null,
-            type: "Retainer",
-            price: price
-          })
-        
-        
-        a = array;
-      } 
-
-
-
-      t.total.set(price)
-      t.payment.set(a)
-
-      t.find('[name="amount"]').value = ""
-      t.find('[name="discount"]').value = ""
-      t.find('[name="deposit_amount"]').value = ""
-      t.find('[name="project_estimate"]').value = ""
-
-    } else {
-      alert('Complete the data')
+    if (deposit_amount === "") {
+      deposit_amount = null
     }
 
+    let type = $('[name="engagement_charge"]').val()
 
-    if (typeof t.payment.get() !== 'undefined' && t.payment.get().length > 0 && t.total.get() !== 0) {
-        
-      if (!deferral) {
-        deferral = null
-      }
+    let recurring = $('#checkbox1').is(":checked")
 
-      if ($('[name="engagement_charge"]').val() !== '0') {
-        Remoto.call('paymentEngagementLetter', t.payment.get(), t.total.get(), t.hourly.get(), deposit_amount, deferral, letterId, t.secondTotal.get(), (err) => {
+    Remoto.call('paymentEngagementLetter', type, recurring, deposit_amount, deferral, letterId, (err) => {
+
           if (err) {
+
             alert(err)
+
           } else {
 
-            Remoto.call('sendLetterToClient', letterId)
-
-            FlowRouter.go('/mobile')
+            Remoto.call('sendLetterToClient', letterId, (err) => {
+              if (!err) {
+                FlowRouter.go('/mobile')
+              } else {
+                alert(err)
+              }
+            })
+            
           }
-        })  
-      } else {
-        alert('Choose a type of charge')
-      }
-    
-      
-    } else {
-      alert('Complete the payment Information')
-
-    }
+    }) 
 
 
   }

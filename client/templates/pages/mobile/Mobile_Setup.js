@@ -2,6 +2,16 @@ import Remoto from '../../../../both/conexion'
 
 import { Clients, Templates, Parties } from '../../../../both/conexion'
 
+Template.Mobile_Setup.onRendered( () => {
+	let template = Template.instance()
+
+	template.autorun( () => {
+
+		Remoto.subscribe('user')
+
+	})
+})
+
 Template.Mobile_Setup.events({
 	'click [name="add_member"]'(e, t) {
 
@@ -45,5 +55,73 @@ Template.Mobile_Setup.events({
 	    } else {
 	        alert('Complete the email');
 	    }
+  	},
+  	'change [name="signature"]'(e, t) {
+
+  		console.log('hollala')
+
+  		let file = e.target.files[0]
+
+  		let userId = Remoto.userId()
+
+  		let data = {
+  			email: Meteor.users.findOne({_id: userId}).emails[0].address 
+  		}
+
+  		let uploaderSignature = new Slingshot.Upload('Upload', data)
+
+  		uploaderSignature.send( file, ( error, url ) => {
+		    	
+		    	if ( error ) {
+		      		alert( error.message)
+		      		
+		    	} else {
+
+		    		Remoto.call( "StoreUrlOfSignature", url, ( error ) => {
+					    if ( error ) {
+					    	alert( error.reason, "warning" )
+					    	return false
+					    } else {
+					      	alert( "Signature Saved!", "success" )
+					      	FlowRouter.go('/mobile')
+					      	return true
+					    }
+	  				})	 
+
+		    	}
+	  	})	
+  	},
+  	'change [name="logo"]'(e, t) {
+
+  		let file = e.target.files[0]
+
+  		let userId = Remoto.userId()
+
+  		let data = {
+  			firmId: Meteor.users.findOne({_id: userId}).profile.firmId
+  		}
+
+  		let uploaderLogo = new Slingshot.Upload('UploadLogos', data)
+
+  		uploaderLogo.send( file, ( error, url ) => {
+		    	
+		    	if ( error ) {
+		      		alert( error.message)
+		      		
+		    	} else {
+
+		    		Remoto.call( "StoreUrlOfLogo", url, ( error ) => {
+					    if ( error ) {
+					    	alert( error.reason, "warning" )
+					    	return false
+					    } else {
+					      	alert( "Logo Saved!", "success" )
+					      	FlowRouter.go('/mobile')
+					      	return true
+					    }
+	  				})	 
+
+		    	}
+	  	})
   	}
 })

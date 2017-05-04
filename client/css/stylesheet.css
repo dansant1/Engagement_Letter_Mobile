@@ -425,8 +425,9 @@ ul.list-group li {
 }
 
 .profile_line {
-  width: 80%;
-  padding: 30px;
+  width: 95%;
+  margin: 0px auto;
+  padding: 24px;
 }
 
 .profile_line img {

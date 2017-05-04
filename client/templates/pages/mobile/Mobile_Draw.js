@@ -1,6 +1,17 @@
+import Remoto from '../../../../both/conexion'
+
 Template.Mobile_Draw.onRendered(() => {
 
+	let template = Template.instance()
+
+	template.autorun( () => {
+
+		Remoto.subscribe('user')
+
+	})
+
 	var canvas = document.getElementById("sig-canvas");
+	template.canvas = canvas;
 	var ctx = canvas.getContext("2d");
 	ctx.strokeStyle = "#222222";
 	ctx.lineWith = 2;
@@ -112,5 +123,41 @@ Template.Mobile_Draw.onRendered(() => {
 })
 
 Template.Mobile_Draw.events({
+	'click [name="save"]'(e, t) {
+			
+		let userId = Remoto.userId()
+		
+		let data = {
+			email: Meteor.users.findOne({_id: userId}).emails[0].address
+		}
 
+		
+		let uploaderSignature = new Slingshot.Upload('Upload', data)
+
+		t.canvas.toBlob( file => {
+
+			uploaderSignature.send( file, ( error, url ) => {
+		    	
+		    	if ( error ) {
+		      		alert( error.message)
+		      		
+		    	} else {
+
+		    		Remoto.call( "StoreUrlOfSignature", url, ( error ) => {
+					    if ( error ) {
+					    	alert( error.reason, "warning" )
+					    	return false
+					    } else {
+					      	alert( "Signature Saved!", "success" )
+					      	FlowRouter.go('/mobile')
+					      	return true
+					    }
+	  				})	 
+
+		    	}
+	  		})	
+		})
+
+
+	}
 })

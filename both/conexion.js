@@ -9,7 +9,8 @@ let Parties = new Mongo.Collection('parties', Remoto);
 let Signatures = new Mongo.Collection('signatures', Remoto); 
 let Logos = new Mongo.Collection('logos', Remoto);
 
-export { Letters, Clients, Templates, Parties }
+
+export { Letters, Clients, Templates, Parties, Signatures }
 
 
 export default Remoto

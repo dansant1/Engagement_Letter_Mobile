@@ -1,6 +1,6 @@
 // the entire section is optional.
 App.info({
-  id: 'co.engagement.letter.grupoddv',
+  id: 'org.nativescript.engagementapp',
   name: 'Engagement Letter',
   description: 'Engagement Letter',
   author: 'Grupo DDV SAC - Engagement Letter Co',

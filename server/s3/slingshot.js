@@ -18,7 +18,7 @@ Slingshot.createDirective( "Upload", Slingshot.S3Storage, {
   }
 })
 
-// LOGOS
+
 Slingshot.fileRestrictions( "UploadLogos", {
   allowedFileTypes: [ "image/png", "image/jpeg"],
   maxSize: 1 * 1024 * 1024

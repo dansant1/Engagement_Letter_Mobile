@@ -19,3 +19,15 @@ Template.Mobile_List_Letters.helpers({
 		return Clients.findOne({_id: this.engagement_client}).company_name
 	}
 })
+
+Template.Mobile_List_Letters.events({
+	'click #remove_letter'(e, t) {
+		Remoto.call('remove_letter', this._id, (err) => {
+	      if (!err) { 
+	        Bert.alert('Engagement Letter Removed', 'success')
+	      } else {  
+	        Bert.alert(err, 'danger')
+	      }
+    	})
+	}
+})

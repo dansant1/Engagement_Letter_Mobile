@@ -1,6 +1,6 @@
 import Remoto from '../../../../both/conexion'
 
-import { Letters, Clients, Templates, Parties } from '../../../../both/conexion'
+import { Letters, Clients, Templates, Parties, Default_Templates, Engagement_types } from '../../../../both/conexion'
 
 Template.Mobile_New_Letter.onCreated(() => {
 
@@ -8,14 +8,29 @@ Template.Mobile_New_Letter.onCreated(() => {
 
   template.autorun( () => {
     Remoto.subscribe('Clients')
+    Remoto.subscribe('Letters')
   })
 
 })
 
 Template.Mobile_New_Letter.helpers({
   clients() {
-
     return Clients.find()
+  },
+  edit() {
+    if (FlowRouter.getParam('letterId')) {
+      return true
+    } else {
+      return false
+    }
+  },
+  client() {
+    if (FlowRouter.getParam('letterId')) {
+    
+      return Clients.findOne({_id: Letters.findOne({_id: FlowRouter.getParam('letterId')}).engagement_client})
+    } else {
+      return 
+    }
   }
 })
 
@@ -26,7 +41,7 @@ Template.Mobile_New_Letter_2.events({
       if (e.target.value !== "?" ) {
 
           let tipo = e.target.value
-          console.log(tipo)
+          
           if (  tipo !== "0" ) {
 
             if (tipo == "1") {
@@ -79,22 +94,37 @@ Template.Mobile_New_Letter.events({
     }
 
   },
-  'click [name="next"]'(e, t) {
+  'click [name="next"]'(e, t){
+
     let client = $('[name="engagement_client"]').val()
     let letterId = FlowRouter.getParam('letterId')
     if (client !== "0") {
       Session.set('clientId', client)
       
       if ( letterId ) {
+        client = Letters.findOne({_id: letterId}).engagement_client
+
+        let data = {
+          company_name: t.find("[name='name']").value,
+          company_address: t.find("[name='address']").value,
+          company_phone: t.find("[name='phone']").value,
+          company_client_name: t.find("[name='client_name']").value,
+          company_client_email: t.find("[name='client_email']").value,
+        }
+
+        console.log(data)
+
+        Session.set('clientId', client)
+        Session.set('clientData', data)
+        
         FlowRouter.go('/mobile/new_letter/write_letter/' + letterId)    
       } else {
         FlowRouter.go('/mobile/new_letter/write_letter')  
-      }
-    
-      
+      } 
 
     } else {
       if ( !letterId ) {
+
         let data = {
           company_name: t.find("[name='name']").value,
           company_address: t.find("[name='address']").value,
@@ -125,7 +155,24 @@ Template.Mobile_New_Letter.events({
         }
 
       } else {
-        FlowRouter.go('/mobile/new_letter/write_letter/' + letterId) 
+
+        client = Letters.findOne({_id: letterId}).engagement_client
+
+        let data = {
+          company_name: t.find("[name='name']").value,
+          company_address: t.find("[name='address']").value,
+          company_phone: t.find("[name='phone']").value,
+          company_client_name: t.find("[name='client_name']").value,
+          company_client_email: t.find("[name='client_email']").value,
+        }
+
+        console.log(data)
+
+         Session.set('clientId', client)
+         Session.set('clientData', data)
+
+          FlowRouter.go('/mobile/new_letter/write_letter/' + letterId) 
+
       }
       
     }
@@ -136,9 +183,11 @@ Template.Mobile_New_Letter_2.onCreated(() => {
 
   let template = Template.instance();
   let letterId = FlowRouter.getParam('letterId')
+
   template.autorun(() => {
     Remoto.subscribe('Templates')
-    
+    Remoto.subscribe('Engagement_Types')
+    Remoto.subscribe('defaultTemplates')
     if (letterId) {
       Remoto.subscribe('Letter', letterId)
     }
@@ -150,6 +199,14 @@ Template.Mobile_New_Letter_2.onCreated(() => {
 
 
 Template.Mobile_New_Letter_2.helpers({
+  defaultTemplates() {
+
+    return Default_Templates.find()
+  },
+  engagement_types() {
+
+    return Engagement_types.find()
+  },
   engagement() {
     let letterId = FlowRouter.getParam('letterId')
 
@@ -165,22 +222,31 @@ Template.Mobile_New_Letter_2.helpers({
 Template.Mobile_New_Letter_2.events({
   'click [name="next"]'(e, t) {
     let engagement = t.find("[name='engagement']").value
-    let engagement_type = $('#engagement_type').val()
+    let engagement_type = "1" //$('#engagement_type').val()
     let engagement_client = Session.get('clientId')
     let clientId = Session.get('clientId')
     let letterId = FlowRouter.getParam('letterId')
     if (engagement !== "" && engagement_type !== '0') {
 
       if (letterId) {
-        engagement_client = Letters.findOne().engagement_client
-        engagement_type  = Letters.findOne().engagement_type
-        Remoto.call('editEngagementLetter1', letterId, engagement_type, engagement_client, engagement, clientId, (err, result) => {
-          if (err) {
-            alert(err)
-          } else {
-            FlowRouter.go('/mobile/new_letter/conflicts/' + letterId)
-          }
+        engagement_client = Letters.findOne({_id: letterId}).engagement_client
+        engagement_type  = Letters.findOne({_id: letterId}).engagement_type
+
+        Remoto.call('client_update', Session.get('clientData'), Session.get('clientId'), (err) => {
+            if (!err) {
+              Remoto.call('editEngagementLetter1', FlowRouter.getParam('letterId'),  engagement_type, engagement_client, engagement, (err, result) => {
+                if (err) {
+                  Bert.alert(err, 'danger')
+                } else {
+                  FlowRouter.go('/mobile/new_letter/conflicts/' + letterId)
+                 
+                }
+              })
+            } else {
+              Bert.alert(err, 'danger')
+            }
         })
+       
 
       } else {
 
@@ -201,14 +267,29 @@ Template.Mobile_New_Letter_2.events({
       if (letterId) {
         engagement_client = Letters.findOne().engagement_client
         engagement_type  = Letters.findOne().engagement_type
+
+        Remoto.call('client_update', Session.get('clientData'), Session.get('clientId'), (err) => {
+            if (!err) {
+              Remoto.call('editEngagementLetter1', FlowRouter.getParam('letterId'),  engagement_type, engagement_client, engagement, (err, result) => {
+                if (err) {
+                  Bert.alert(err, 'danger')
+                } else {
+                  FlowRouter.go('/mobile/new_letter/conflicts/' + letterId)
+                 
+                }
+              })
+            } else {
+              Bert.alert(err, 'danger')
+            }
+          })
         
-        Remoto.call('editEngagementLetter1', letterId, engagement_type, engagement_client, engagement, clientId, (err, result) => {
+        /*Remoto.call('editEngagementLetter1', letterId, engagement_type, engagement_client, engagement, clientId, (err, result) => {
           if (err) {
             alert(err)
           } else {
             FlowRouter.go('/mobile/new_letter/conflicts/' + letterId)
           }
-        })
+        })*/
 
       } else {
          alert('Type the Letter')

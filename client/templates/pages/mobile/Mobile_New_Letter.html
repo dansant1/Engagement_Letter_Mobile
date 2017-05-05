@@ -8,20 +8,35 @@
 
     <div class="content">
 
-      <select class="input_material auth" name="engagement_client">
-        <option value="0">-- Choose a Client --</option>
-        {{#each clients}}
-        <option value="{{this._id}}">{{company_name}}</option>
-        {{/each}}
-      </select>
-      <br>
-      <h4 class="white">- or Add a New Client-</h4>
-      <br>
+      {{#if edit}}
+
+      {{else}}
+        <select class="input_material auth" name="engagement_client">
+          <option value="0">-- Choose a Client --</option>
+          {{#each clients}}
+          <option value="{{this._id}}">{{company_name}}</option>
+          {{/each}}
+        </select>
+        <br>
+        <h4 class="white">- or Add a New Client-</h4>
+        <br>
+      {{/if}}
+
+      {{#with client}}
+      
+      <input type="text" value="{{this.company_name}}" name="name" placeholder="Company Name" class="input_material auth">
+      <input type="text" value="{{this.company_address}}" name="address" placeholder="Company Address" class="input_material auth">
+      <input type="number" value="{{this.company_phone}}" name="phone" placeholder="Company Phone" class="input_material auth">
+      <input type="text" value="{{this.company_client_name}}" name="client_name" placeholder="Contact Name" class="input_material auth">
+      <input type="email" value="{{this.company_client_email}}" name="client_email" placeholder="Client Email" class="input_material auth">
+      {{else}}
       <input type="text" name="name" placeholder="Company Name" class="input_material auth">
-      <input type="text" name="address" placeholder="Company Address" class="input_material auth">
+      <input type="text"  name="address" placeholder="Company Address" class="input_material auth">
       <input type="number" name="phone" placeholder="Company Phone" class="input_material auth">
       <input type="text" name="client_name" placeholder="Contact Name" class="input_material auth">
       <input type="email" name="client_email" placeholder="Client Email" class="input_material auth">
+      {{/with}}
+      
       
       <a href="#" class="btn btn-white signup large new" style="font-size: 13px; width: 90%; margin: 30px auto; padding-top: 15px;" name="next"><i class="fa fa-plus" aria-hidden="true"></i> Next</a>
       
@@ -41,8 +56,9 @@
 
     <select class="input_material auth" id="engagement_type" name="engagement_type" style="width: 90%; margin: 20px auto;">
       <option value="0">--Choose a Type--</option>
-      <option value="1">Susan's Type</option>
-      <option value="2">Joe's Type</option>
+     {{#each engagement_types}}
+            <option value="{{this._id}}">{{this.name}}</option>
+      {{/each}}
     </select>
 
     <textarea name="engagement" class="input_material area" rows="8" cols="80" style="width: 90%; margin: 0 auto;" placeholder="Describe the Engagement Scope">{{engagement}}</textarea>
@@ -54,6 +70,9 @@
       {{#each templates}}
       <option value="{{this.content}}">{{this.name}}</option>
       {{/each}}
+      {{#each defaultTemplates}}
+        <option value="{{this.content}}">{{this.name}}</option>
+        {{/each}}
     </select>
     <br>
     <a href="/mobile/create-template"  style="font-size: 13px; width: 90%; margin: 0px auto; background-color: white; color: teal; padding-top: 15px;" class="btn btn-white signup">Add Template</a>

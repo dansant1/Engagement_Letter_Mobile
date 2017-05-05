@@ -1,5 +1,5 @@
 //const Remoto = DDP.connect('http://localhost:3000');
-const Remoto = DDP.connect('http://app.engagementletter.co');
+const Remoto = DDP.connect('https://app.engagementletter.co');
 
 let Letters = new Mongo.Collection('letters', Remoto);
 let Clients = new Mongo.Collection('clients', Remoto);

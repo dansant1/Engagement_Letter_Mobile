@@ -25,18 +25,18 @@ App.accessRule('*');
   'ios_spotlight_2x': 'public/logos/logo_80x80.png'
 });*/
 
-/*App.launchScreens({
+App.launchScreens({
   'iphone_2x': 'public/logos/launch_640x960.png',
   'iphone5': 'public/logos/launch_640x1136.png',
   'iphone6': 'public/logos/launch_750x1334.png',
   'iphone6p_portrait': 'public/logos/launch_1242x2208.png'
-});*/
+});
 
 App.appendToConfig(`<platform name="ios">
     <config-file platform="ios" target="*-Info.plist" parent="NSPhotoLibraryUsageDescription">
       <string>We access to the photos of your device</string>
     </config-file>
     <config-file platform="ios" target="*-Info.plist" parent="NSCameraUsageDescription">
-      <string>We access to the photos of your device</string>
+      <string>We access to the Camera of your device</string>
     </config-file>
   </platform>`);
